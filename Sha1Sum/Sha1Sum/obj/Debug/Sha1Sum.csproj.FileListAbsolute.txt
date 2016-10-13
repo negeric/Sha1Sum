@@ -1,0 +1,11 @@
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\bin\Debug\Sha1Sum.exe.config
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\bin\Debug\Sha1Sum.exe
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\bin\Debug\Sha1Sum.pdb
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\obj\Debug\Sha1Sum.csprojResolveAssemblyReference.cache
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\obj\Debug\Sha1Sum.exe
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\obj\Debug\Sha1Sum.pdb
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\bin\Debug\CommandLine.dll
+C:\Users\jeffa\Source\Repos\LogParserReports\Sha1Sum\Sha1Sum\bin\Debug\CommandLine.xml
+C:\Users\jeffa\Source\Repos\Sha1Sum\Sha1Sum\Sha1Sum\bin\Debug\Sha1Sum.exe.config
+C:\Users\jeffa\Source\Repos\Sha1Sum\Sha1Sum\Sha1Sum\obj\Debug\Sha1Sum.exe
+C:\Users\jeffa\Source\Repos\Sha1Sum\Sha1Sum\Sha1Sum\obj\Debug\Sha1Sum.pdb
