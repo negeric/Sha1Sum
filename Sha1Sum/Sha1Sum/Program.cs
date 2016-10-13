@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 using CommandLine;
@@ -10,6 +9,9 @@ using CommandLine.Text;
 using System.Diagnostics;
 namespace Sha1Sum
 {
+    // <author>Jeff Anderson https://jeff.forsale</author>
+    // <date>October 13, 2016 1:29:58 PM </date>
+    // <summary>SHA1 Hash utitlity</summary>
     class Program
     {
         //Using CommandLine from https://commandline.codeplex.com/
