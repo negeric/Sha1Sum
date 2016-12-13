@@ -64,7 +64,7 @@ namespace Sha1Sum
             //Check if the working object exists
             if (objExists(workingObj))
             {
-                Console.WriteLine(Sha1(workingObj));
+                Console.WriteLine(Sha1Hash(workingObj));
                 debug("SHA1 Checksum complete");
             }
             //Working object does not exists.  Return -1
@@ -137,6 +137,127 @@ namespace Sha1Sum
                 return false;
             }
         }
+
+        //New Sha1 hash
+        private static string Sha1Hash(string objPath)
+        {
+            bool tmpIsDirectory = isDirectory(objPath);
+            bool fileExtensionFilter = false;
+            string fileHash = null;
+            //Check if 1-exclude flag was set and contains paths
+            if (!String.IsNullOrEmpty(strExcludeExtension) && tmpIsDirectory)
+            {
+                //Set fileExtensionFilter to true so we don't run code if there are no filters
+                fileExtensionFilter = true;
+                //Create a blank list to hold the filtered file extensions
+                filterExtension = new List<string>();
+                //Check if multiple extensions were specified
+                if (strExcludeExtension.Contains(','))
+                {
+                    //Multiple extensions were provided, expand to array
+                    foreach (string tmpExt in strExcludeExtension.Split(','))
+                    {
+                        //Check if the user added a . before the extension, if not, add it
+                        if (tmpExt.Substring(0, 1) != ".")
+                        {
+                            filterExtension.Add("." + tmpExt);
+                            debug("Added new filter: ." + tmpExt);
+                        }
+                        else
+                        {
+                            filterExtension.Add(tmpExt);
+                            debug("Added new filter: " + tmpExt);
+                        }
+                    }
+                }
+                else //Single file extension provided
+                {
+                    //Check if the user added a . before the extension, if not, add it
+                    if (strExcludeExtension.Substring(0, 1) != ".")
+                    {
+                        filterExtension.Add("." + strExcludeExtension);
+                        debug("Added new filter: ." + strExcludeExtension);
+                    }
+                    else
+                    {
+                        filterExtension.Add(strExcludeExtension);
+                        debug("Added new filter: " + strExcludeExtension);
+                    }
+                }
+            }
+            //Create the sha1 instance
+            //SHA1 sha1 = SHA1.Create();
+            //Get a list of subdirectories and files
+            IList<string> files = new List<string>();
+            files = GetFiles(objPath, files);
+            //Ensure there are files to work with
+            if (files.Count > 0 && files != null)
+            {
+                try
+                {
+                    //Loop through the files
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        string tmpFileExt = Path.GetExtension(files[i]);
+                        bool filterMatch = false;
+
+                        //Check if we are filtering files by extension
+                        //No need to pull the extension if we are not filtering
+                        //Also, we will not apply a file filter if the user specified a file instead of a directory
+                        if (fileExtensionFilter && tmpIsDirectory)
+                        {
+                            //Ensure that the filterExtension list contains an item
+                            if (filterExtension.Count > 0)
+                            {
+                                foreach (string tmpFilterExtension in filterExtension)
+                                {
+                                    if (tmpFileExt.ToLower().Trim() == tmpFilterExtension.ToLower().Trim())
+                                    {
+                                        iFilesFiltered++;
+                                        filterMatch = true;
+                                    }
+                                }
+
+                            }
+                        }
+                        if (filterMatch)
+                            continue;
+                        //Add to the file counter
+                        iObjCount++;                        
+                        try
+                        {
+                            string file = files[i];
+                            debug(file);
+                            using (FileStream fs = new FileStream(@file, FileMode.Open))
+                            using (BufferedStream bs = new BufferedStream(fs))
+                            {
+                                using (SHA1Managed sha1hash = new SHA1Managed())
+                                {
+                                    byte[] hash = sha1hash.ComputeHash(bs);
+                                    StringBuilder formatted = new StringBuilder(2 * hash.Length);
+                                    foreach (byte b in hash)
+                                    {
+                                        formatted.AppendFormat("{0:x2}", b);
+                                    }
+                                    fileHash = formatted.ToString();
+                                }
+                            }
+                        }
+                        catch (UnauthorizedAccessException ex)
+                        {
+                            fileHash = "Access Denied";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    debug("Directory may be empty: " + ex.ToString());
+                    fileHash = "Error";
+                }
+            }
+            return fileHash;
+        }
+
         //Perform the Sha1 hashing
         private static string Sha1(string objPath)
         {
